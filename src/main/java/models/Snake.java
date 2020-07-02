@@ -33,7 +33,7 @@ public class Snake {
 
     public Snake(Position position) {
 //        this.position = position;
-        PieceOfSnakePane firstPiece = new PieceOfSnakePane(position,true);
+        PieceOfSnakePane firstPiece = new PieceOfSnakePane(position,true);  //  constructor, so I bet we are creating first piece
         firstPiece.setStyle(color);
         snakePieces.add(firstPiece);
     }
@@ -50,7 +50,7 @@ public class Snake {
     }
 
     public void grow(){
-        PieceOfSnakePane extraPiece = new PieceOfSnakePane(new Position(snakePieces.get(snakePieces.size()-1).getPosition().getX()+1,snakePieces.get(snakePieces.size()-1).getPosition().getY()-1),false);
+        PieceOfSnakePane extraPiece = new PieceOfSnakePane(new Position(snakePieces.get(snakePieces.size()-1).getPosition().getX(),snakePieces.get(snakePieces.size()-1).getPosition().getY()-1),false);
         extraPiece.setStyle(color);
         snakePieces.add(extraPiece);
     }

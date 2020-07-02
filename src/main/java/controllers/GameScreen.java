@@ -26,10 +26,10 @@ public class GameScreen{
 //            for(Node sPane : snakeGridPane.getChildren()){
 //                System.out.println(sPane.toString());
 //            }
-        System.out.println(getNodeByRowColumnIndex(5,15,snakeGridPane));
         Random random = new Random();
         Position initPosition = new Position(random.nextInt(16), random.nextInt(6));
         Snake snakee = new Snake(initPosition);
+        snakee.grow();
         snakee.grow();
 //        placeSnakeOnBoard(new Snake(initPosition));
         placeSnakeOnBoard(snakee);
@@ -40,13 +40,12 @@ public class GameScreen{
         this.width = width;
 
         for(int i=0; i < width; i++){
-            for(int j = 0 ; j < height; j++){
+            for(int j = 0 ; j < height; j++){   //basic stackPane fields
                 StackPane squareOnGameBoard = new StackPane();
                 squareOnGameBoard.setStyle("-fx-border-color: darkcyan");
                 snakeGridPane.add(squareOnGameBoard, i, j);
             }
         }
-
 
         for (int i = 0; i < width; i++) {
             snakeGridPane.getColumnConstraints().add(new ColumnConstraints(1, Control.USE_COMPUTED_SIZE, Double.POSITIVE_INFINITY, Priority.ALWAYS, HPos.CENTER, true));
@@ -56,11 +55,12 @@ public class GameScreen{
             snakeGridPane.getRowConstraints().add(new RowConstraints(1, Control.USE_COMPUTED_SIZE, Double.POSITIVE_INFINITY, Priority.ALWAYS, VPos.CENTER, true));
         }
     }
+
     private void placeSnakeOnBoard(Snake snake){
         for(int i=0; i < snake.getLength(); i++) {
-            snakeGridPane.getChildren().remove(getNodeByRowColumnIndex(snake.getSnakePieces().get(i).getPosition().getX()-i, snake.getSnakePieces().get(i).getPosition().getY()-i, snakeGridPane));
+            snakeGridPane.getChildren().remove(getNodeByRowColumnIndex(snake.getSnakePieces().get(i).getPosition().getX(), snake.getSnakePieces().get(i).getPosition().getY(), snakeGridPane));
 //        snakeGridPane.add(new Snake(initPosition));
-            snakeGridPane.add(snake.getSnakePieces().get(i), snake.getSnakePieces().get(i).getPosition().getX()-i, snake.getSnakePieces().get(i).getPosition().getY()-i);
+            snakeGridPane.add(snake.getSnakePieces().get(i), snake.getSnakePieces().get(i).getPosition().getX(), snake.getSnakePieces().get(i).getPosition().getY());
         }
     }
     private Node getNodeByRowColumnIndex (final int row, final int column, GridPane gridPane) {
