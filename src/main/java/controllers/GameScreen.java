@@ -7,7 +7,10 @@ import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.control.Control;
 import javafx.scene.layout.*;
+import models.Position;
 import models.Snake;
+
+import java.util.Random;
 
 
 public class GameScreen{
@@ -23,7 +26,13 @@ public class GameScreen{
 //            for(Node sPane : snakeGridPane.getChildren()){
 //                System.out.println(sPane.toString());
 //            }
-//        System.out.println(getNodeByRowColumnIndex(5,15,snakeGridPane));
+        System.out.println(getNodeByRowColumnIndex(5,15,snakeGridPane));
+        Random random = new Random();
+        Position initPosition = new Position(random.nextInt(16), random.nextInt(6));
+        Snake snakee = new Snake(initPosition);
+        snakee.grow();
+//        placeSnakeOnBoard(new Snake(initPosition));
+        placeSnakeOnBoard(snakee);
     }
 
     private void initGridBoard(int width, int height){
@@ -48,9 +57,13 @@ public class GameScreen{
         }
     }
     private void placeSnakeOnBoard(Snake snake){
-
+        for(int i=0; i < snake.getLength(); i++) {
+            snakeGridPane.getChildren().remove(getNodeByRowColumnIndex(snake.getSnakePieces().get(i).getPosition().getX()-i, snake.getSnakePieces().get(i).getPosition().getY()-i, snakeGridPane));
+//        snakeGridPane.add(new Snake(initPosition));
+            snakeGridPane.add(snake.getSnakePieces().get(i), snake.getSnakePieces().get(i).getPosition().getX()-i, snake.getSnakePieces().get(i).getPosition().getY()-i);
+        }
     }
-    public Node getNodeByRowColumnIndex (final int row, final int column, GridPane gridPane) {
+    private Node getNodeByRowColumnIndex (final int row, final int column, GridPane gridPane) {
         Node result = null;
         ObservableList<Node> childrens = gridPane.getChildren();
 
