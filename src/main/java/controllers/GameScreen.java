@@ -36,24 +36,34 @@ public class GameScreen{
 //        snakee.grow();
 //        placeSnakeOnBoard(new Snake(initPosition));
         placeSnakeOnBoard(snakee);
-        snakeMovingTask();
+        snakeMovingTask(snakee);
     }
 
-    private void snakeMovingTask() {
+    private void snakeMovingTask(Snake snake) {
         Task task = new Task<Void>() {
             @Override
             public Void call() throws Exception {
-                int i = 0;
                 while (true) {
-                    final int finalI = i;
+//                    int incrementLengthBy=0;
                     Platform.runLater(new Runnable() {
                         @Override
                         public void run() {
-                            System.out.println("Now snake should move");
+//                            System.out.println("Now snake should move");
+                            for(int i=0; i < snake.getLength(); i++) {
+//                                snakeGridPane.getChildren().remove(getNodeByRowColumnIndex(snake.getSnakePieces().get(i).getPosition().getX(), snake.getSnakePieces().get(i).getPosition().getY(), snakeGridPane));
+                                snakeGridPane.getChildren().remove(snake.getSnakePieces().get(i));
+//        snakeGridPane.add(new Snake(initPosition));
+
+                                // update snake position
+                                snake.getSnakePieces().get(i).setPosition(new Position(snake.getSnakePieces().get(i).getPosition().getX()+1, snake.getSnakePieces().get(i).getPosition().getY()));
+
+                                snakeGridPane.getChildren().remove(getNodeByRowColumnIndex(snake.getSnakePieces().get(i).getPosition().getX(), snake.getSnakePieces().get(i).getPosition().getY(), snakeGridPane));
+                                snakeGridPane.add(snake.getSnakePieces().get(i), snake.getSnakePieces().get(i).getPosition().getX(), snake.getSnakePieces().get(i).getPosition().getY());
+                            }
                         }
                     });
-                    i++;
                     Thread.sleep(1000); // run once every 1s
+//                    incrementLengthBy++;
                 }
             }
         };
