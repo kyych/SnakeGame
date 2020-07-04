@@ -1,6 +1,9 @@
 package controllers;
 
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
@@ -11,7 +14,7 @@ import models.Position;
 import models.Snake;
 
 import java.util.Random;
-
+import java.util.concurrent.CountDownLatch;
 
 public class GameScreen{
     private int heigh, width;   //size of grid board that snake move on
@@ -29,10 +32,34 @@ public class GameScreen{
         Random random = new Random();
         Position initPosition = new Position(random.nextInt(16), random.nextInt(6));
         Snake snakee = new Snake(initPosition);
-        snakee.grow();
-        snakee.grow();
+//        snakee.grow();
+//        snakee.grow();
 //        placeSnakeOnBoard(new Snake(initPosition));
         placeSnakeOnBoard(snakee);
+        snakeMovingTask();
+    }
+
+    private void snakeMovingTask() {
+        Task task = new Task<Void>() {
+            @Override
+            public Void call() throws Exception {
+                int i = 0;
+                while (true) {
+                    final int finalI = i;
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            System.out.println("Now snake should move");
+                        }
+                    });
+                    i++;
+                    Thread.sleep(1000); // run once every 1s
+                }
+            }
+        };
+        Thread th = new Thread(task);
+        th.setDaemon(true);
+        th.start();
     }
 
     private void initGridBoard(int width, int height){
