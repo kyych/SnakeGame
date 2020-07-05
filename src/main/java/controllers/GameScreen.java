@@ -2,7 +2,6 @@ package controllers;
 
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
-import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
@@ -10,6 +9,7 @@ import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.control.Control;
 import javafx.scene.layout.*;
+import models.Direction;
 import models.Position;
 import models.Snake;
 

@@ -35,7 +35,27 @@ public class Snake {
 //        this.position = position;
         PieceOfSnakePane firstPiece = new PieceOfSnakePane(position,true);  //  constructor, so I bet we are creating first piece
         firstPiece.setStyle(color);
+        this.headDirection = randomizeDirection();
         snakePieces.add(firstPiece);
+    }
+
+
+    public Direction randomizeDirection() {
+        Random random = new Random();
+        int randNumber = random.nextInt(4);
+        switch (randNumber){
+            case 0:
+                return Direction.NORTH;
+            case 1:
+                return Direction.SOUTH;
+            case 2:
+                return Direction.EAST;
+            case 3:
+                return Direction.WEST;
+            default:
+                System.err.println("Cant randomize direction. " + this.getClass());
+                return Direction.NORTH;
+        }
     }
 
 
