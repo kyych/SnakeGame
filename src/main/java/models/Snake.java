@@ -31,6 +31,10 @@ public class Snake {
 //    }
 
 
+    public Direction getHeadDirection() {
+        return headDirection;
+    }
+
     public Snake(Position position) {
 //        this.position = position;
         PieceOfSnakePane firstPiece = new PieceOfSnakePane(position,true);  //  constructor, so I bet we are creating first piece
@@ -70,7 +74,26 @@ public class Snake {
     }
 
     public void grow(){
-        PieceOfSnakePane extraPiece = new PieceOfSnakePane(new Position(snakePieces.get(snakePieces.size()-1).getPosition().getX(),snakePieces.get(snakePieces.size()-1).getPosition().getY()-1),false);
+        int moveX=0, moveY=0;
+        switch (getHeadDirection()){
+            case NORTH:
+                moveX=0;
+                moveY=1;
+                break;
+            case SOUTH:
+                moveX=0;
+                moveY=-1;
+                break;
+            case WEST:
+                moveX=-1;
+                moveY=0;
+                break;
+            case EAST:
+                moveX=1;
+                moveY=0;
+                break;
+        }
+        PieceOfSnakePane extraPiece = new PieceOfSnakePane(new Position(snakePieces.get(snakePieces.size()-1).getPosition().getX()+moveX,snakePieces.get(snakePieces.size()-1).getPosition().getY()+moveY),false);
         extraPiece.setStyle(color);
         snakePieces.add(extraPiece);
     }

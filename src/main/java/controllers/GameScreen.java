@@ -33,6 +33,9 @@ public class GameScreen{
         Snake snakee = new Snake(initPosition);
         snakee.grow();
         snakee.grow();
+        snakee.grow();
+        snakee.grow();
+        snakee.grow();
 //        placeSnakeOnBoard(new Snake(initPosition));
         placeSnakeOnBoard(snakee);
         snakeMovingTask(snakee);
@@ -47,14 +50,34 @@ public class GameScreen{
                     Platform.runLater(new Runnable() {
                         @Override
                         public void run() {
+                            int moveX=0, moveY=0;
 //                            System.out.println("Now snake should move");
                             for(int i=0; i < snake.getLength(); i++) {
 //                                snakeGridPane.getChildren().remove(getNodeByRowColumnIndex(snake.getSnakePieces().get(i).getPosition().getX(), snake.getSnakePieces().get(i).getPosition().getY(), snakeGridPane));
                                 snakeGridPane.getChildren().remove(snake.getSnakePieces().get(i));
 //        snakeGridPane.add(new Snake(initPosition));
 
+                                //based on head direction update position
+                                switch (snake.getHeadDirection()){
+                                    case NORTH:
+                                        moveX=0;
+                                        moveY=1;
+                                        break;
+                                    case SOUTH:
+                                        moveX=0;
+                                        moveY=-1;
+                                        break;
+                                    case WEST:
+                                        moveX=-1;
+                                        moveY=0;
+                                        break;
+                                    case EAST:
+                                        moveX=1;
+                                        moveY=0;
+                                        break;
+                                }
                                 // update snake position
-                                snake.getSnakePieces().get(i).setPosition(new Position(snake.getSnakePieces().get(i).getPosition().getX(), snake.getSnakePieces().get(i).getPosition().getY()-1));
+                                snake.getSnakePieces().get(i).setPosition(new Position(snake.getSnakePieces().get(i).getPosition().getX()+moveX, snake.getSnakePieces().get(i).getPosition().getY()+moveY));
 
 //                                snakeGridPane.getChildren().remove(getNodeByRowColumnIndex(snake.getSnakePieces().get(i).getPosition().getX(), snake.getSnakePieces().get(i).getPosition().getY(), snakeGridPane));
                                 snakeGridPane.getChildren().remove(snake.getSnakePieces().get(i));
