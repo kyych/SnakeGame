@@ -14,7 +14,6 @@ import models.Position;
 import models.Snake;
 
 import java.util.Random;
-import java.util.concurrent.CountDownLatch;
 
 public class GameScreen{
     private int heigh, width;   //size of grid board that snake move on
@@ -24,16 +23,16 @@ public class GameScreen{
 
     @FXML
     public void initialize(){
-            initGridBoard(16,6);
+            initGridBoard(40,40);
 
 //            for(Node sPane : snakeGridPane.getChildren()){
 //                System.out.println(sPane.toString());
 //            }
         Random random = new Random();
-        Position initPosition = new Position(random.nextInt(16), random.nextInt(6));
+        Position initPosition = new Position(random.nextInt(40), random.nextInt(40));
         Snake snakee = new Snake(initPosition);
-//        snakee.grow();
-//        snakee.grow();
+        snakee.grow();
+        snakee.grow();
 //        placeSnakeOnBoard(new Snake(initPosition));
         placeSnakeOnBoard(snakee);
         snakeMovingTask(snakee);
@@ -55,14 +54,15 @@ public class GameScreen{
 //        snakeGridPane.add(new Snake(initPosition));
 
                                 // update snake position
-                                snake.getSnakePieces().get(i).setPosition(new Position(snake.getSnakePieces().get(i).getPosition().getX()+1, snake.getSnakePieces().get(i).getPosition().getY()));
+                                snake.getSnakePieces().get(i).setPosition(new Position(snake.getSnakePieces().get(i).getPosition().getX(), snake.getSnakePieces().get(i).getPosition().getY()-1));
 
-                                snakeGridPane.getChildren().remove(getNodeByRowColumnIndex(snake.getSnakePieces().get(i).getPosition().getX(), snake.getSnakePieces().get(i).getPosition().getY(), snakeGridPane));
+//                                snakeGridPane.getChildren().remove(getNodeByRowColumnIndex(snake.getSnakePieces().get(i).getPosition().getX(), snake.getSnakePieces().get(i).getPosition().getY(), snakeGridPane));
+                                snakeGridPane.getChildren().remove(snake.getSnakePieces().get(i));
                                 snakeGridPane.add(snake.getSnakePieces().get(i), snake.getSnakePieces().get(i).getPosition().getX(), snake.getSnakePieces().get(i).getPosition().getY());
                             }
                         }
                     });
-                    Thread.sleep(1000); // run once every 1s
+                    Thread.sleep(500); // run once every 1s
 //                    incrementLengthBy++;
                 }
             }
@@ -95,7 +95,8 @@ public class GameScreen{
 
     private void placeSnakeOnBoard(Snake snake){
         for(int i=0; i < snake.getLength(); i++) {
-            snakeGridPane.getChildren().remove(getNodeByRowColumnIndex(snake.getSnakePieces().get(i).getPosition().getX(), snake.getSnakePieces().get(i).getPosition().getY(), snakeGridPane));
+//            snakeGridPane.getChildren().remove(getNodeByRowColumnIndex(snake.getSnakePieces().get(i).getPosition().getX(), snake.getSnakePieces().get(i).getPosition().getY(), snakeGridPane));
+            snakeGridPane.getChildren().remove(snake.getSnakePieces().get(i));
 //        snakeGridPane.add(new Snake(initPosition));
             snakeGridPane.add(snake.getSnakePieces().get(i), snake.getSnakePieces().get(i).getPosition().getX(), snake.getSnakePieces().get(i).getPosition().getY());
         }
