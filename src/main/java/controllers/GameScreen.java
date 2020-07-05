@@ -7,12 +7,16 @@ import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Control;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import models.Direction;
 import models.Position;
 import models.Snake;
 
+import java.security.Key;
 import java.util.Random;
 
 public class GameScreen{
@@ -28,6 +32,7 @@ public class GameScreen{
 //            for(Node sPane : snakeGridPane.getChildren()){
 //                System.out.println(sPane.toString());
 //            }
+
         Random random = new Random();
         Position initPosition = new Position(random.nextInt(40), random.nextInt(40));
         Snake snakee = new Snake(initPosition);
@@ -138,4 +143,9 @@ public class GameScreen{
     }
 
 
+    @FXML
+    public void keyPressListener(KeyEvent keyEvent) {
+        System.out.println(keyEvent.toString());
+
+    }
 }

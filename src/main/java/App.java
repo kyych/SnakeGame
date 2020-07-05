@@ -11,7 +11,9 @@ public class App extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("GameBoard.fxml"));
 
         stage.setTitle("SnakyyyGame");
-        stage.setScene(new Scene(root,500,300));
+//        stage.setScene(new Scene(root,500,300));
+        stage.setScene(new Scene(root));
+        root.requestFocus();    //without it onKeyPressed method wont work...
         stage.show();
     }
 
