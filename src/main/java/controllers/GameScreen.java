@@ -22,6 +22,8 @@ import java.util.Random;
 public class GameScreen{
     private int heigh, width;   //size of grid board that snake move on
 
+    private Snake snake;
+
     @FXML
     private GridPane snakeGridPane;
 
@@ -41,9 +43,11 @@ public class GameScreen{
         snakee.grow();
         snakee.grow();
         snakee.grow();
+
 //        placeSnakeOnBoard(new Snake(initPosition));
         placeSnakeOnBoard(snakee);
         snakeMovingTask(snakee);
+        this.snake= snakee;
     }
 
     private void snakeMovingTask(Snake snake) {
@@ -66,11 +70,11 @@ public class GameScreen{
                                 switch (snake.getHeadDirection()){
                                     case NORTH:
                                         moveX=0;
-                                        moveY=1;
+                                        moveY=-1;
                                         break;
                                     case SOUTH:
                                         moveX=0;
-                                        moveY=-1;
+                                        moveY=1;
                                         break;
                                     case WEST:
                                         moveX=-1;
@@ -145,7 +149,20 @@ public class GameScreen{
 
     @FXML
     public void keyPressListener(KeyEvent keyEvent) {
-        System.out.println(keyEvent.toString());
+        switch (keyEvent.getCode()){
+            case W:
+                snake.setHeadDirection(Direction.NORTH);
+                break;
+            case S:
+                snake.setHeadDirection(Direction.SOUTH);
+                break;
+            case A:
+                snake.setHeadDirection(Direction.WEST);
+                break;
+            case D:
+                snake.setHeadDirection(Direction.EAST);
+                break;
+        }
 
     }
 }

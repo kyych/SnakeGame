@@ -35,6 +35,10 @@ public class Snake {
         return headDirection;
     }
 
+    public void setHeadDirection(Direction headDirection) {
+        this.headDirection = headDirection;
+    }
+
     public Snake(Position position) {
 //        this.position = position;
         PieceOfSnakePane firstPiece = new PieceOfSnakePane(position,true);  //  constructor, so I bet we are creating first piece
