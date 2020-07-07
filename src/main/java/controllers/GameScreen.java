@@ -7,20 +7,20 @@ import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Control;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import models.Direction;
 import models.Position;
 import models.Snake;
 
-import java.security.Key;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class GameScreen{
     private int heigh, width;   //size of grid board that snake move on
+
+    private ArrayList<Position> snakeFracturePositions = new ArrayList<>();
 
     private Snake snake;
 
@@ -67,7 +67,7 @@ public class GameScreen{
 //        snakeGridPane.add(new Snake(initPosition));
 
                                 //based on head direction update position
-                                switch (snake.getHeadDirection()){
+                                switch (snake.getSnakePieces().get(i).getDirection()){
                                     case NORTH:
                                         moveX=0;
                                         moveY=-1;
@@ -94,7 +94,7 @@ public class GameScreen{
                             }
                         }
                     });
-                    Thread.sleep(500); // run once every 1s
+                    Thread.sleep(1000); // run once every 0,1s
 //                    incrementLengthBy++;
                 }
             }
@@ -149,6 +149,7 @@ public class GameScreen{
 
     @FXML
     public void keyPressListener(KeyEvent keyEvent) {
+        snakeFracturePositions.add(snake.getSnakePieces().get(1).getPosition());    // punkt przełamania węża od którego elementy mają zmieniać swój kierunek ruchu
         switch (keyEvent.getCode()){
             case W:
                 snake.setHeadDirection(Direction.NORTH);

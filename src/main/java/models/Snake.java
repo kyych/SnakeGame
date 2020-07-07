@@ -37,13 +37,21 @@ public class Snake {
 
     public void setHeadDirection(Direction headDirection) {
         this.headDirection = headDirection;
+        setDirectionOfSnakePieces();
+    }
+
+    public void setDirectionOfSnakePieces(){
+        for(PieceOfSnakePane piece: snakePieces){
+            piece.setDirection(headDirection);
+        }
     }
 
     public Snake(Position position) {
 //        this.position = position;
-        PieceOfSnakePane firstPiece = new PieceOfSnakePane(position,true);  //  constructor, so I bet we are creating first piece
+        Direction headDirection= randomizeDirection();
+        PieceOfSnakePane firstPiece = new PieceOfSnakePane(position,true, headDirection);  //  constructor, so I bet we are creating first piece
         firstPiece.setStyle(color);
-        this.headDirection = randomizeDirection();
+        this.headDirection = headDirection;
         snakePieces.add(firstPiece);
     }
 
@@ -97,7 +105,7 @@ public class Snake {
                 moveY=0;
                 break;
         }
-        PieceOfSnakePane extraPiece = new PieceOfSnakePane(new Position(snakePieces.get(snakePieces.size()-1).getPosition().getX()+moveX,snakePieces.get(snakePieces.size()-1).getPosition().getY()+moveY),false);
+        PieceOfSnakePane extraPiece = new PieceOfSnakePane(new Position(snakePieces.get(snakePieces.size()-1).getPosition().getX()+moveX,snakePieces.get(snakePieces.size()-1).getPosition().getY()+moveY),false, getSnakePieces().get(getLength()-1).getDirection());
         extraPiece.setStyle(color);
         snakePieces.add(extraPiece);
     }
