@@ -1,5 +1,6 @@
 package models;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -115,4 +116,17 @@ public class Snake {
 //        move(random.nextInt(xBoarder), random.nextInt(yBoarder));
         position.updatePositon(random.nextInt(xBoarder), random.nextInt(yBoarder));
     }
+
+    public void broadCastPositionToNodes(){
+        ArrayList<PieceOfSnakePane> localSnakePieces = getSnakePieces();
+        for(int piece =1; piece < getLength(); piece++){
+//            System.out.print(getSnakePieces().get(piece).getPosition().getX()+", "+getSnakePieces().get(piece).getPosition().getY()+
+//                    " Zmiana na: " +getSnakePieces().get(piece-1).getPosition().getX()+", "+getSnakePieces().get(piece-1).getPosition().getY()+"     END                     ");
+            getSnakePieces().get(piece).setPosition(localSnakePieces.get(piece-1).getPosition());
+//            System.out.print(piece + " ");
+        }
+//        System.out.println(getLength());
+        System.out.println();
+    }
+
 }

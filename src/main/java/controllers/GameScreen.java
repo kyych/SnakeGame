@@ -11,6 +11,7 @@ import javafx.scene.control.Control;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import models.Direction;
+import models.PieceOfSnakePane;
 import models.Position;
 import models.Snake;
 
@@ -43,6 +44,9 @@ public class GameScreen{
         snakee.grow();
         snakee.grow();
         snakee.grow();
+        snakee.grow();
+        snakee.grow();
+        snakee.grow();
 
 //        placeSnakeOnBoard(new Snake(initPosition));
         placeSnakeOnBoard(snakee);
@@ -61,13 +65,43 @@ public class GameScreen{
                         public void run() {
                             int moveX=0, moveY=0;
 //                            System.out.println("Now snake should move");
-                            for(int i=0; i < snake.getLength(); i++) {
-//                                snakeGridPane.getChildren().remove(getNodeByRowColumnIndex(snake.getSnakePieces().get(i).getPosition().getX(), snake.getSnakePieces().get(i).getPosition().getY(), snakeGridPane));
-                                snakeGridPane.getChildren().remove(snake.getSnakePieces().get(i));
-//        snakeGridPane.add(new Snake(initPosition));
+//                            for(int i=0; i < snake.getLength(); i++) {
+////                                snakeGridPane.getChildren().remove(getNodeByRowColumnIndex(snake.getSnakePieces().get(i).getPosition().getX(), snake.getSnakePieces().get(i).getPosition().getY(), snakeGridPane));
+//                                snakeGridPane.getChildren().remove(snake.getSnakePieces().get(i));
+////        snakeGridPane.add(new Snake(initPosition));
+//
+//                                //based on head direction update position
+//                                switch (snake.getSnakePieces().get(i).getDirection()){
+//                                    case NORTH:
+//                                        moveX=0;
+//                                        moveY=-1;
+//                                        break;
+//                                    case SOUTH:
+//                                        moveX=0;
+//                                        moveY=1;
+//                                        break;
+//                                    case WEST:
+//                                        moveX=-1;
+//                                        moveY=0;
+//                                        break;
+//                                    case EAST:
+//                                        moveX=1;
+//                                        moveY=0;
+//                                        break;
+//                                }
+//                                // update snake position
+//                                snake.getSnakePieces().get(i).setPosition(new Position(snake.getSnakePieces().get(i).getPosition().getX()+moveX, snake.getSnakePieces().get(i).getPosition().getY()+moveY));
+//
+////                                snakeGridPane.getChildren().remove(getNodeByRowColumnIndex(snake.getSnakePieces().get(i).getPosition().getX(), snake.getSnakePieces().get(i).getPosition().getY(), snakeGridPane));
+//                                snakeGridPane.getChildren().remove(snake.getSnakePieces().get(i));
+//                                snakeGridPane.add(snake.getSnakePieces().get(i), snake.getSnakePieces().get(i).getPosition().getX(), snake.getSnakePieces().get(i).getPosition().getY());
+//                            }
 
-                                //based on head direction update position
-                                switch (snake.getSnakePieces().get(i).getDirection()){
+
+//                            snakeGridPane.getChildren().remove(snake.getSnakePieces().get(snake.getLength()-1));
+
+
+                            switch (snake.getHeadDirection()){
                                     case NORTH:
                                         moveX=0;
                                         moveY=-1;
@@ -85,13 +119,25 @@ public class GameScreen{
                                         moveY=0;
                                         break;
                                 }
-                                // update snake position
-                                snake.getSnakePieces().get(i).setPosition(new Position(snake.getSnakePieces().get(i).getPosition().getX()+moveX, snake.getSnakePieces().get(i).getPosition().getY()+moveY));
 
-//                                snakeGridPane.getChildren().remove(getNodeByRowColumnIndex(snake.getSnakePieces().get(i).getPosition().getX(), snake.getSnakePieces().get(i).getPosition().getY(), snakeGridPane));
-                                snakeGridPane.getChildren().remove(snake.getSnakePieces().get(i));
-                                snakeGridPane.add(snake.getSnakePieces().get(i), snake.getSnakePieces().get(i).getPosition().getX(), snake.getSnakePieces().get(i).getPosition().getY());
+
+                                /////////////////
+
+                                snake.broadCastPositionToNodes();
+
+                            //update HEADSnakePiece Object position...
+                            snake.getSnakePieces().get(0).setPosition(new Position(snake.getSnakePieces().get(0).getPosition().getX()+moveX,snake.getSnakePieces().get(0).getPosition().getY()+moveY));
+                            //
+////                            snakeGridPane.add(snake.getSnakePieces().get(0), snake.getSnakePieces().get(0).getPosition().getX(),snake.getSnakePieces().get(0).getPosition().getY());
+
+
+                            for(PieceOfSnakePane snakePiece : snake.getSnakePieces()){
+                                snakeGridPane.getChildren().remove(snakePiece);
+                                snakeGridPane.add(snakePiece, snakePiece.getPosition().getX(),snakePiece.getPosition().getY());
                             }
+                            ///////////////////////////
+
+
                         }
                     });
                     Thread.sleep(1000); // run once every 0,1s
@@ -149,7 +195,7 @@ public class GameScreen{
 
     @FXML
     public void keyPressListener(KeyEvent keyEvent) {
-        snakeFracturePositions.add(snake.getSnakePieces().get(1).getPosition());    // punkt przełamania węża od którego elementy mają zmieniać swój kierunek ruchu
+//        snakeFracturePositions.add(snake.getSnakePieces().get(1).getPosition());    // punkt przełamania węża od którego elementy mają zmieniać swój kierunek ruchu
         switch (keyEvent.getCode()){
             case W:
                 snake.setHeadDirection(Direction.NORTH);
