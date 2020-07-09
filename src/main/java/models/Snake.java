@@ -1,5 +1,6 @@
 package models;
 
+import java.awt.*;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Random;
@@ -118,15 +119,37 @@ public class Snake {
     }
 
     public void broadCastPositionToNodes(){
-        ArrayList<PieceOfSnakePane> localSnakePieces = getSnakePieces();
-        for(int piece =1; piece < getLength(); piece++){
-//            System.out.print(getSnakePieces().get(piece).getPosition().getX()+", "+getSnakePieces().get(piece).getPosition().getY()+
-//                    " Zmiana na: " +getSnakePieces().get(piece-1).getPosition().getX()+", "+getSnakePieces().get(piece-1).getPosition().getY()+"     END                     ");
-            getSnakePieces().get(piece).setPosition(localSnakePieces.get(piece-1).getPosition());
-//            System.out.print(piece + " ");
-        }
+//        ArrayList<PieceOfSnakePane> localSnakePieces = new ArrayList<>(getSnakePieces());
+//        for(PieceOfSnakePane piece : getSnakePieces()){
+//            System.out.println(piece.getPosition().getX()+" "+ piece.getPosition().getY());
+//        }
+////        localSnakePieces.clear();
+////        System.out.println("AAAAAAAAAAAAAAAAAAAA "+ getSnakePieces());
+//        // MOŻLIWE, ŻE ELEMENTY SĄ, TYLKO NIE SĄ RYSOWANE!!!
+//        for(int piece =1; piece < getLength(); piece++){
+////            System.out.print(getSnakePieces().get(piece).getPosition().getX()+", "+getSnakePieces().get(piece).getPosition().getY()+
+////                    " Zmiana na: " +getSnakePieces().get(piece-1).getPosition().getX()+", "+getSnakePieces().get(piece-1).getPosition().getY()+"     END                     ");
+////            System.out.print(" "+piece+". "+localSnakePieces.get(piece-1).getPosition().getX()+":"+ localSnakePieces.get(piece-1).getPosition().getY()+"");
+//
+//            getSnakePieces().get(piece).setPosition(localSnakePieces.get(piece-1).getPosition());   // ustawia wartość piece z wyżej w dół, a następnie ten z dół ustawioną wartość wyżej przekazuje niżej....
+////            System.out.println(localSnakePieces.get(piece-1));
+////            System.out.print(" "+piece+". "+localSnakePieces.get(piece-1).getPosition().getX()+":"+ localSnakePieces.get(piece-1).getPosition().getY()+"");
+////            System.out.println(localSnakePieces.get(piece-1).getPosition().getX());
+////            System.out.println(snakePieces.get(piece-1).getPosition().getX());
+////            System.out.print(piece + " ");
+//        }
+//        System.out.println();
+
 //        System.out.println(getLength());
-        System.out.println();
+//        System.out.println();
+
+
+
+        //////////////////////////
+        Position tempPosition;
+        for(int piece = getSnakePieces().size(); piece >1; piece--){
+            getSnakePieces().get(piece-1).setPosition(getSnakePieces().get(piece-2).getPosition());
+        }
     }
 
 }
