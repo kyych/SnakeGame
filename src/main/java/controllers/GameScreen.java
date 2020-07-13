@@ -93,27 +93,26 @@ public class GameScreen{
 //                                    System.out.println("Wyszedles poza granice mordo");
                                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
 
-//                                    task.stop();
-//                                    task.cancel();
+//                                    cancelled();
                                     alert.setTitle("U have reach the border");
                                     alert.setContentText("Final score: " + snake.getLength());
+                                    if (cancel()){
+                                        System.out.println("CANCELUDALSIE");
+                                        break;
+                                    }
                                     alert.show();
-                                    cancel();
-//                                    return ;
+                                    break;
 
 
                                 }
                             }
                             if(snake.getSnakePieces().get(0).getPosition().getX()<0 || snake.getSnakePieces().get(0).getPosition().getY()>width){
-//                                System.out.println("WYSZEDLES POZA WIDTH");
-//                                task.cancel();
+                                cancel();
 
                                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                                 alert.setTitle("U have reach the border");
                                 alert.setContentText("Final score: " + snake.getLength());
                                 alert.show();
-                                cancel();
-//                                return  ;
                             }
                         }
                     });
