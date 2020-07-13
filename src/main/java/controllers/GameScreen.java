@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Control;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
@@ -19,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class GameScreen{
-    private int heigh, width;   //size of grid board that snake move on
+    private int heigh=40, width=40;   //size of grid board that snake move on
 
     private ArrayList<Position> snakeFracturePositions = new ArrayList<>();
 
@@ -30,10 +31,10 @@ public class GameScreen{
 
     @FXML
     public void initialize(){
-            initGridBoard(40,40);
+            initGridBoard(width,heigh);
 
         Random random = new Random();
-        Position initPosition = new Position(random.nextInt(40), random.nextInt(40));
+        Position initPosition = new Position(random.nextInt(width), random.nextInt(heigh));
         Snake snakee = new Snake(initPosition);
 
         snakee.grow();
@@ -56,7 +57,6 @@ public class GameScreen{
             @Override
             public Void call() throws Exception {
                 while (true) {
-//                    int incrementLengthBy=0;
                     Platform.runLater(new Runnable() {
                         @Override
                         public void run() {
@@ -87,7 +87,33 @@ public class GameScreen{
 
                             for(PieceOfSnakePane snakePiece : snake.getSnakePieces()){
                                 snakeGridPane.getChildren().remove(snakePiece);
-                                snakeGridPane.add(snakePiece, snakePiece.getPosition().getX(),snakePiece.getPosition().getY());
+                                try {
+                                    snakeGridPane.add(snakePiece, snakePiece.getPosition().getX(), snakePiece.getPosition().getY());
+                                } catch (IllegalArgumentException ex){
+//                                    System.out.println("Wyszedles poza granice mordo");
+                                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+
+//                                    task.stop();
+//                                    task.cancel();
+                                    alert.setTitle("U have reach the border");
+                                    alert.setContentText("Final score: " + snake.getLength());
+                                    alert.show();
+                                    cancel();
+//                                    return ;
+
+
+                                }
+                            }
+                            if(snake.getSnakePieces().get(0).getPosition().getX()<0 || snake.getSnakePieces().get(0).getPosition().getY()>width){
+//                                System.out.println("WYSZEDLES POZA WIDTH");
+//                                task.cancel();
+
+                                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                                alert.setTitle("U have reach the border");
+                                alert.setContentText("Final score: " + snake.getLength());
+                                alert.show();
+                                cancel();
+//                                return  ;
                             }
                         }
                     });
@@ -107,9 +133,10 @@ public class GameScreen{
         for(int i=0; i < width; i++){
             for(int j = 0 ; j < height; j++){   //basic stackPane fields
                 StackPane squareOnGameBoard = new StackPane();
-                squareOnGameBoard.setStyle("-fx-border-color: darkcyan");
+                squareOnGameBoard.setStyle("-fx-border-color: #eaf5e6");
                 snakeGridPane.add(squareOnGameBoard, i, j);
             }
+            snakeGridPane.setStyle("-fx-background-color: #d1c8ae");
         }
 
         for (int i = 0; i < width; i++) {
@@ -123,9 +150,7 @@ public class GameScreen{
 
     private void placeSnakeOnBoard(Snake snake){
         for(int i=0; i < snake.getLength(); i++) {
-//            snakeGridPane.getChildren().remove(getNodeByRowColumnIndex(snake.getSnakePieces().get(i).getPosition().getX(), snake.getSnakePieces().get(i).getPosition().getY(), snakeGridPane));
             snakeGridPane.getChildren().remove(snake.getSnakePieces().get(i));
-//        snakeGridPane.add(new Snake(initPosition));
             snakeGridPane.add(snake.getSnakePieces().get(i), snake.getSnakePieces().get(i).getPosition().getX(), snake.getSnakePieces().get(i).getPosition().getY());
         }
     }
