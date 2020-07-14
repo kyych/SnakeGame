@@ -89,26 +89,20 @@ public class GameScreen{
                                 snakeGridPane.getChildren().remove(snakePiece);
                                 try {
                                     snakeGridPane.add(snakePiece, snakePiece.getPosition().getX(), snakePiece.getPosition().getY());
-                                } catch (IllegalArgumentException ex){
-//                                    System.out.println("Wyszedles poza granice mordo");
-                                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-
-//                                    cancelled();
-                                    alert.setTitle("U have reach the border");
-                                    alert.setContentText("Final score: " + snake.getLength());
+                                } catch (IllegalArgumentException ex){  // player has gone beyond the map boundary
                                     if (cancel()){
-                                        System.out.println("CANCELUDALSIE");
                                         break;
                                     }
-                                    alert.show();
                                     break;
 
 
                                 }
                             }
-                            if(snake.getSnakePieces().get(0).getPosition().getX()<0 || snake.getSnakePieces().get(0).getPosition().getY()>width){
+                            if(snake.getSnakePieces().get(0).getPosition().getX()<0 ||snake.getSnakePieces().get(0).getPosition().getX()>width||
+                                    snake.getSnakePieces().get(0).getPosition().getY()>heigh || snake.getSnakePieces().get(0).getPosition().getY()<0){
                                 cancel();
 
+                                System.out.println("INSIDE");
                                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                                 alert.setTitle("U have reach the border");
                                 alert.setContentText("Final score: " + snake.getLength());
