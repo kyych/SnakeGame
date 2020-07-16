@@ -11,10 +11,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Control;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
-import models.Direction;
-import models.PieceOfSnakePane;
-import models.Position;
-import models.Snake;
+import models.*;
+import org.ietf.jgss.GSSName;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -25,6 +23,7 @@ public class GameScreen{
     private ArrayList<Position> snakeFracturePositions = new ArrayList<>();
 
     private Snake snake;
+    private ArrayList<SnackField> snacks = new ArrayList<SnackField>();
 
     @FXML
     private GridPane snakeGridPane;
@@ -37,6 +36,7 @@ public class GameScreen{
         Position initPosition = new Position(random.nextInt(width), random.nextInt(heigh));
         Snake snakee = new Snake(initPosition);
 
+
         snakee.grow();
         snakee.grow();
         snakee.grow();
@@ -48,8 +48,36 @@ public class GameScreen{
 
 //        placeSnakeOnBoard(new Snake(initPosition));
         placeSnakeOnBoard(snakee);
+        placeSnaksOnMap(width,heigh);
         snakeMovingTask(snakee);
         this.snake= snakee;
+    }
+
+    private void placeSnaksOnMap(int width, int heigh) {
+        int numberOfSnacks = (int)(width*heigh*0.02);
+        Random random = new Random();
+        for(int i=0; i < numberOfSnacks; i++){
+            int x= random.nextInt(width-1);
+            int y = random.nextInt(heigh-1);
+            System.out.println(x+", " + y);
+
+//            while(getNodeByRowColumnIndex(x,y,snakeGridPane) instanceof SnackField){  //wont work, getNode returns node...
+//                x=random.nextInt();
+//                y=random.nextInt();
+//            }
+//            SnackField snackField = new SnackField(x,y);
+//            System.out.println(snackField);
+            snacks.add(new SnackField(x,y));
+            snakeGridPane.getChildren().remove(getNodeByRowColumnIndex(x,y,snakeGridPane));
+//            System.out.println(snacks.get(i));
+            snakeGridPane.add(snacks.get(i), snacks.get(i).getX(),snacks.get(i).getY());
+//            System.out.println(getNodeByRowColumnIndex(snacks.get(i).getX(), snacks.get(i).getY(), snakeGridPane));
+//            snakeGridPane.getChildren().add(snacks.get(i), snacks.get(i).getX(), snacks.get(i).getY());
+//            snakeGridPane.getChildren().addAll(snackField);
+//            System.out.println(getNodeByRowColumnIndex(x,y,snakeGridPane));
+//            System.out.println(numberOfSnacks+" " + getNodeByRowColumnIndex(x,y,snakeGridPane));
+//            snakeGridPane.clearConstraints(snakeGridPane);
+        }
     }
 
     private void snakeMovingTask(Snake snake) {
@@ -82,6 +110,21 @@ public class GameScreen{
                                 }
 
                                 snake.broadCastPositionToNodes();
+
+                            // snake eats snack!!!
+//                                snakeGridPane.getChildren().remove(snake.getSnakePieces().get(0).getPosition().getX()+moveX,snake.getSnakePieces().get(0).getPosition().getY()+moveY);
+//                            System.out.println(getNodeByRowColumnIndex(snake.getSnakePieces().get(0).getPosition().getX()+moveX,snake.getSnakePieces().get(0).getPosition().getY()+moveY,snakeGridPane).getClass());
+                            if(getNodeByRowColumnIndex(snake.getSnakePieces().get(0).getPosition().getX()+moveX,snake.getSnakePieces().get(0).getPosition().getY()+moveY,snakeGridPane) instanceof SnackField){
+                                // nigdy tutaj nie wejddz... snake gdy sie porusza to zmienia klase stackPane na swoją snakePieces...
+                                snakeGridPane.getChildren().remove(getNodeByRowColumnIndex(snake.getSnakePieces().get(0).getPosition().getX()+moveX,snake.getSnakePieces().get(0).getPosition().getY()+moveY,snakeGridPane));
+
+                                System.out.println("snack");
+
+                                StackPane squareOnGameBoard = new StackPane();
+                                squareOnGameBoard.setStyle("-fx-background-color: #d1c8ae");
+                                snakeGridPane.add(squareOnGameBoard, snake.getSnakePieces().get(0).getPosition().getX()+moveX,snake.getSnakePieces().get(0).getPosition().getY()+moveY);
+                            }
+                            //
 
                             snake.getSnakePieces().get(0).setPosition(new Position(snake.getSnakePieces().get(0).getPosition().getX()+moveX,snake.getSnakePieces().get(0).getPosition().getY()+moveY)); //update HEADSnakePiece Object position...
 
@@ -159,6 +202,7 @@ public class GameScreen{
         }
         return result;
     }
+
 
     @FXML
     public void keyPressListener(KeyEvent keyEvent) {
