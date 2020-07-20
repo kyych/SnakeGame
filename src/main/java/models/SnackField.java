@@ -5,12 +5,18 @@ import javafx.scene.layout.StackPane;
 public class SnackField extends StackPane {
     private int x, y;
 
+    public static String identiifer = "SNACK";
+
     public int getX() {
         return x;
     }
 
     public void setX(int x) {
         this.x = x;
+    }
+
+    public String getColor() {
+        return color;
     }
 
     public int getY() {
@@ -23,7 +29,7 @@ public class SnackField extends StackPane {
 
     private String color = "-fx-background-color: red;";
     public SnackField(int x, int y) {
-        super();
+//        super();
         this.y =y;
         this.x =x;
         this.setStyle(color);

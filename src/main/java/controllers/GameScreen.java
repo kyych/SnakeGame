@@ -12,7 +12,6 @@ import javafx.scene.control.Control;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import models.*;
-import org.ietf.jgss.GSSName;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -59,18 +58,30 @@ public class GameScreen{
         for(int i=0; i < numberOfSnacks; i++){
             int x= random.nextInt(width-1);
             int y = random.nextInt(heigh-1);
-            System.out.println(x+", " + y);
+//            System.out.println(x+", " + y);
 
-//            while(getNodeByRowColumnIndex(x,y,snakeGridPane) instanceof SnackField){  //wont work, getNode returns node...
-//                x=random.nextInt();
-//                y=random.nextInt();
-//            }
+            while(getNodeByRowColumnIndex(x,y,snakeGridPane).getStyle().equals("-fx-background-color: red;")){
+                x=random.nextInt();
+                y=random.nextInt();
+            }
 //            SnackField snackField = new SnackField(x,y);
 //            System.out.println(snackField);
             snacks.add(new SnackField(x,y));
+            snakeGridPane.getRowConstraints().remove(getNodeByRowColumnIndex(x,y,snakeGridPane));
+            snakeGridPane.getColumnConstraints().remove(getNodeByRowColumnIndex(x,y,snakeGridPane));
+
             snakeGridPane.getChildren().remove(getNodeByRowColumnIndex(x,y,snakeGridPane));
-//            System.out.println(snacks.get(i));
-            snakeGridPane.add(snacks.get(i), snacks.get(i).getX(),snacks.get(i).getY());
+
+
+            System.out.println(snacks.get(i));
+//            snakeGridPane.setConstraints(snacks.get(i), snacks.get(i).getX(), snacks.get(i).getY());
+            snakeGridPane.setRowIndex(snacks.get(i),snacks.get(i).getX());
+            snakeGridPane.setColumnIndex(snacks.get(i),snacks.get(i).getY());
+
+//            snakeGridPane.add(snacks.get(i), snacks.get(i).getX(),snacks.get(i).getY());
+
+            snakeGridPane.getChildren().add(snacks.get(i));
+
 //            System.out.println(getNodeByRowColumnIndex(snacks.get(i).getX(), snacks.get(i).getY(), snakeGridPane));
 //            snakeGridPane.getChildren().add(snacks.get(i), snacks.get(i).getX(), snacks.get(i).getY());
 //            snakeGridPane.getChildren().addAll(snackField);
@@ -114,17 +125,30 @@ public class GameScreen{
                             // snake eats snack!!!
 //                                snakeGridPane.getChildren().remove(snake.getSnakePieces().get(0).getPosition().getX()+moveX,snake.getSnakePieces().get(0).getPosition().getY()+moveY);
 //                            System.out.println(getNodeByRowColumnIndex(snake.getSnakePieces().get(0).getPosition().getX()+moveX,snake.getSnakePieces().get(0).getPosition().getY()+moveY,snakeGridPane).getClass());
-                            if(getNodeByRowColumnIndex(snake.getSnakePieces().get(0).getPosition().getX()+moveX,snake.getSnakePieces().get(0).getPosition().getY()+moveY,snakeGridPane) instanceof SnackField){
+//                            System.out.println(snake.getSnakePieces().get(0).getPosition().getX()+" " +snake.getSnakePieces().get(0).getPosition().getY());
+//                            System.out.println(getNodeByRowColumnIndex(snake.getSnakePieces().get(0).getPosition().getX()+moveX,snake.getSnakePieces().get(0).getPosition().getY()+moveY,snakeGridPane));
+//                            System.out.println(getNodeByRowColumnIndex(snake.getSnakePieces().get(0).getPosition().getX()+moveX,snake.getSnakePieces().get(0).getPosition().getY()+moveY,snakeGridPane).getClass() );
+//                            System.out.println(getNodeByRowColumnIndex(snake.getSnakePieces().get(0).getPosition().getX()+moveX,snake.getSnakePieces().get(0).getPosition().getY()+moveY,snakeGridPane)!=null);
+//                            System.out.println(getNodeFromGridPane(snake.getSnakePieces().get(0).getPosition().getX()+moveX,snake.getSnakePieces().get(0).getPosition().getY()+moveY,snakeGridPane)==null);
+//                            System.out.println(getNodeByRowColumnIndex(snake.getSnakePieces().get(0).getPosition().getX()+moveX,snake.getSnakePieces().get(0).getPosition().getX()+moveX,snakeGridPane);
+
+
+
+                            if(getNodeByRowColumnIndex(snake.getSnakePieces().get(0).getPosition().getX()+moveX,snake.getSnakePieces().get(0).getPosition().getY()+moveY,snakeGridPane).getStyle().equals("-fx-background-color: red;")){
                                 // nigdy tutaj nie wejddz... snake gdy sie porusza to zmienia klase stackPane na swoją snakePieces...
+                                //getNodeByRowColumn zwraca node... TO DLATEGO
+//                                System.out.println("ssss");
+//                                System.out.println(getNodeByRowColumnIndex(snake.getSnakePieces().get(0).getPosition().getX()+moveX,snake.getSnakePieces().get(0).getPosition().getY()+moveY,snakeGridPane));
                                 snakeGridPane.getChildren().remove(getNodeByRowColumnIndex(snake.getSnakePieces().get(0).getPosition().getX()+moveX,snake.getSnakePieces().get(0).getPosition().getY()+moveY,snakeGridPane));
 
                                 System.out.println("snack");
 
                                 StackPane squareOnGameBoard = new StackPane();
-                                squareOnGameBoard.setStyle("-fx-background-color: #d1c8ae");
+//                                squareOnGameBoard.setStyle("-fx-background-color: #d1c8ae");
+                                squareOnGameBoard.setStyle("-fx-background-color: #e8aa00");
                                 snakeGridPane.add(squareOnGameBoard, snake.getSnakePieces().get(0).getPosition().getX()+moveX,snake.getSnakePieces().get(0).getPosition().getY()+moveY);
                             }
-                            //
+//                            //
 
                             snake.getSnakePieces().get(0).setPosition(new Position(snake.getSnakePieces().get(0).getPosition().getX()+moveX,snake.getSnakePieces().get(0).getPosition().getY()+moveY)); //update HEADSnakePiece Object position...
 
@@ -162,6 +186,18 @@ public class GameScreen{
         th.start();
     }
 
+
+
+    private Node getNodeFromGridPane( int col, int row,GridPane gridPane) {
+        for (Node node : gridPane.getChildren())
+            if (GridPane.getColumnIndex(node) != null
+                    && GridPane.getColumnIndex(node) != null
+                    && GridPane.getRowIndex(node) == row
+                    && GridPane.getColumnIndex(node) == col)
+                return node;
+        return null;
+    }
+
     private void initGridBoard(int width, int height){
         this.heigh = height;
         this.width = width;
@@ -188,6 +224,9 @@ public class GameScreen{
         for(int i=0; i < snake.getLength(); i++) {
             snakeGridPane.getChildren().remove(snake.getSnakePieces().get(i));
             snakeGridPane.add(snake.getSnakePieces().get(i), snake.getSnakePieces().get(i).getPosition().getX(), snake.getSnakePieces().get(i).getPosition().getY());
+//            snakeGridPane.setRowIndex(snake.getSnakePieces().get(i), snake.getSnakePieces().get(i).getPosition().getX());
+//            snakeGridPane.setColumnIndex(snake.getSnakePieces().get(i), snake.getSnakePieces().get(i).getPosition().getY());
+            snakeGridPane.setGridLinesVisible(true);
         }
     }
     private Node getNodeByRowColumnIndex (final int row, final int column, GridPane gridPane) {
@@ -195,13 +234,34 @@ public class GameScreen{
         ObservableList<Node> childrens = gridPane.getChildren();
 
         for (Node node : childrens) {
-            if(gridPane.getRowIndex(node) == row && gridPane.getColumnIndex(node) == column) {
+//            System.out.println(gridPane.getRowIndex(node)+" " + gridPane.getColumnIndex(node));
+
+            // to check.
+            if(gridPane.getColumnIndex(node)!=null && gridPane.getRowIndex(node)!=null && gridPane.getRowIndex(node) == row && gridPane.getColumnIndex(node) == column) {
                 result = node;
                 break;
             }
         }
         return result;
     }
+
+    private StackPane getSnackFieldByRowColumnIndex (final int row, final int column, GridPane gridPane) {
+        SnackField result = null;
+        ObservableList<Node> childrens = gridPane.getChildren();
+
+        for (Node node : childrens) {
+            if(gridPane.getRowIndex(node) == row && gridPane.getColumnIndex(node) == column) {
+//                result = node;
+                if(!(node instanceof SnackField)){
+                    System.err.println("Node is not instance of SnackField");
+                }
+                result = (SnackField)node;
+                break;
+            }
+        }
+        return result;
+    }
+
 
 
     @FXML
