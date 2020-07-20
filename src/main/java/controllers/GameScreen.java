@@ -19,8 +19,6 @@ import java.util.Random;
 public class GameScreen{
     private int heigh=40, width=40;   //size of grid board that snake move on
 
-    private ArrayList<Position> snakeFracturePositions = new ArrayList<>();
-
     private Snake snake;
     private ArrayList<SnackField> snacks = new ArrayList<SnackField>();
 
@@ -58,14 +56,11 @@ public class GameScreen{
         for(int i=0; i < numberOfSnacks; i++){
             int x= random.nextInt(width-1);
             int y = random.nextInt(heigh-1);
-//            System.out.println(x+", " + y);
 
             while(getNodeByRowColumnIndex(x,y,snakeGridPane).getStyle().equals("-fx-background-color: red;")){
                 x=random.nextInt();
                 y=random.nextInt();
             }
-//            SnackField snackField = new SnackField(x,y);
-//            System.out.println(snackField);
             snacks.add(new SnackField(x,y));
             snakeGridPane.getRowConstraints().remove(getNodeByRowColumnIndex(x,y,snakeGridPane));
             snakeGridPane.getColumnConstraints().remove(getNodeByRowColumnIndex(x,y,snakeGridPane));
@@ -81,13 +76,6 @@ public class GameScreen{
 //            snakeGridPane.add(snacks.get(i), snacks.get(i).getX(),snacks.get(i).getY());
 
             snakeGridPane.getChildren().add(snacks.get(i));
-
-//            System.out.println(getNodeByRowColumnIndex(snacks.get(i).getX(), snacks.get(i).getY(), snakeGridPane));
-//            snakeGridPane.getChildren().add(snacks.get(i), snacks.get(i).getX(), snacks.get(i).getY());
-//            snakeGridPane.getChildren().addAll(snackField);
-//            System.out.println(getNodeByRowColumnIndex(x,y,snakeGridPane));
-//            System.out.println(numberOfSnacks+" " + getNodeByRowColumnIndex(x,y,snakeGridPane));
-//            snakeGridPane.clearConstraints(snakeGridPane);
         }
     }
 
@@ -122,33 +110,19 @@ public class GameScreen{
 
                                 snake.broadCastPositionToNodes();
 
-                            // snake eats snack!!!
-//                                snakeGridPane.getChildren().remove(snake.getSnakePieces().get(0).getPosition().getX()+moveX,snake.getSnakePieces().get(0).getPosition().getY()+moveY);
-//                            System.out.println(getNodeByRowColumnIndex(snake.getSnakePieces().get(0).getPosition().getX()+moveX,snake.getSnakePieces().get(0).getPosition().getY()+moveY,snakeGridPane).getClass());
-//                            System.out.println(snake.getSnakePieces().get(0).getPosition().getX()+" " +snake.getSnakePieces().get(0).getPosition().getY());
-//                            System.out.println(getNodeByRowColumnIndex(snake.getSnakePieces().get(0).getPosition().getX()+moveX,snake.getSnakePieces().get(0).getPosition().getY()+moveY,snakeGridPane));
-//                            System.out.println(getNodeByRowColumnIndex(snake.getSnakePieces().get(0).getPosition().getX()+moveX,snake.getSnakePieces().get(0).getPosition().getY()+moveY,snakeGridPane).getClass() );
-//                            System.out.println(getNodeByRowColumnIndex(snake.getSnakePieces().get(0).getPosition().getX()+moveX,snake.getSnakePieces().get(0).getPosition().getY()+moveY,snakeGridPane)!=null);
-//                            System.out.println(getNodeFromGridPane(snake.getSnakePieces().get(0).getPosition().getX()+moveX,snake.getSnakePieces().get(0).getPosition().getY()+moveY,snakeGridPane)==null);
-//                            System.out.println(getNodeByRowColumnIndex(snake.getSnakePieces().get(0).getPosition().getX()+moveX,snake.getSnakePieces().get(0).getPosition().getX()+moveX,snakeGridPane);
-
-
-
                             if(getNodeByRowColumnIndex(snake.getSnakePieces().get(0).getPosition().getX()+moveX,snake.getSnakePieces().get(0).getPosition().getY()+moveY,snakeGridPane).getStyle().equals("-fx-background-color: red;")){
-                                // nigdy tutaj nie wejddz... snake gdy sie porusza to zmienia klase stackPane na swoją snakePieces...
-                                //getNodeByRowColumn zwraca node... TO DLATEGO
-//                                System.out.println("ssss");
-//                                System.out.println(getNodeByRowColumnIndex(snake.getSnakePieces().get(0).getPosition().getX()+moveX,snake.getSnakePieces().get(0).getPosition().getY()+moveY,snakeGridPane));
                                 snakeGridPane.getChildren().remove(getNodeByRowColumnIndex(snake.getSnakePieces().get(0).getPosition().getX()+moveX,snake.getSnakePieces().get(0).getPosition().getY()+moveY,snakeGridPane));
 
-                                System.out.println("snack");
+                                System.out.println("SNACK");
 
                                 StackPane squareOnGameBoard = new StackPane();
 //                                squareOnGameBoard.setStyle("-fx-background-color: #d1c8ae");
                                 squareOnGameBoard.setStyle("-fx-background-color: #e8aa00");
-                                snakeGridPane.add(squareOnGameBoard, snake.getSnakePieces().get(0).getPosition().getX()+moveX,snake.getSnakePieces().get(0).getPosition().getY()+moveY);
+
+                                snakeGridPane.setRowIndex(squareOnGameBoard,snake.getSnakePieces().get(0).getPosition().getX()+moveX);
+                                snakeGridPane.setColumnIndex(squareOnGameBoard,snake.getSnakePieces().get(0).getPosition().getX()+moveY);
+                                snakeGridPane.getChildren().add(squareOnGameBoard);
                             }
-//                            //
 
                             snake.getSnakePieces().get(0).setPosition(new Position(snake.getSnakePieces().get(0).getPosition().getX()+moveX,snake.getSnakePieces().get(0).getPosition().getY()+moveY)); //update HEADSnakePiece Object position...
 
@@ -161,8 +135,6 @@ public class GameScreen{
                                         break;
                                     }
                                     break;
-
-
                                 }
                             }
                             if(snake.getSnakePieces().get(0).getPosition().getX()<0 ||snake.getSnakePieces().get(0).getPosition().getX()>width||
@@ -177,7 +149,7 @@ public class GameScreen{
                             }
                         }
                     });
-                    Thread.sleep(70); // run once every 0,1s
+                    Thread.sleep(70); // run once every 0,7s
                 }
             }
         };
@@ -185,8 +157,6 @@ public class GameScreen{
         th.setDaemon(true);
         th.start();
     }
-
-
 
     private Node getNodeFromGridPane( int col, int row,GridPane gridPane) {
         for (Node node : gridPane.getChildren())
@@ -234,9 +204,6 @@ public class GameScreen{
         ObservableList<Node> childrens = gridPane.getChildren();
 
         for (Node node : childrens) {
-//            System.out.println(gridPane.getRowIndex(node)+" " + gridPane.getColumnIndex(node));
-
-            // to check.
             if(gridPane.getColumnIndex(node)!=null && gridPane.getRowIndex(node)!=null && gridPane.getRowIndex(node) == row && gridPane.getColumnIndex(node) == column) {
                 result = node;
                 break;
@@ -244,25 +211,6 @@ public class GameScreen{
         }
         return result;
     }
-
-    private StackPane getSnackFieldByRowColumnIndex (final int row, final int column, GridPane gridPane) {
-        SnackField result = null;
-        ObservableList<Node> childrens = gridPane.getChildren();
-
-        for (Node node : childrens) {
-            if(gridPane.getRowIndex(node) == row && gridPane.getColumnIndex(node) == column) {
-//                result = node;
-                if(!(node instanceof SnackField)){
-                    System.err.println("Node is not instance of SnackField");
-                }
-                result = (SnackField)node;
-                break;
-            }
-        }
-        return result;
-    }
-
-
 
     @FXML
     public void keyPressListener(KeyEvent keyEvent) {
